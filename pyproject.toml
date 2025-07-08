@@ -1,0 +1,21 @@
+[project]
+name = "wyrmx-core"
+version = "0.1.0"
+description = "Wyrmx Core is the framework engine for Wyrmx, offering DI, decorators, routing, and architecture patterns on top of FastAPI."
+
+authors = [
+    {name = "Yousri Aouledissa",email = "aouledissayousri@gmail.com"}
+]
+
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[[tool.poetry.packages]]
+include = "wyrmx"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
