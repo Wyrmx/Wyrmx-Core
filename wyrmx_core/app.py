@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .router import bindRouters
+from wyrmx_core.router import bindRouters
 
 class WyrmxAPP: 
 

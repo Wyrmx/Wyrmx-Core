@@ -19,23 +19,14 @@ It provides the core building blocks: **dependency injection**, **controllers**,
 ## 📦 Installation
 
 This package is meant to be included via the **Wyrmx CLI**.  
-Coming soon as a standalone PyPI package.
-
----
-
-## 🗂️ Folder Structure
-
-Typical `wyrmx` project:
 
 ## ✅ License
 MIT
 
----
 
 ## 🛠️ Author
 Made by **Yousri Aouledissa**
 
----
 
 ## 📌 Notes
 **Wyrmx Core** is the internal framework engine.
