@@ -74,4 +74,9 @@ def model(cls):
     return cls
 
 
+def schema(cls):
+    setattr(cls, "isSchema", True)
+    return cls
+
+
 

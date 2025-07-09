@@ -1,0 +1,1 @@
+from wyrmx_core.db.base_schema import DatabaseSchema
