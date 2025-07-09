@@ -45,9 +45,13 @@ def controller(routerPrefix: str, scope: Scope = Scope.SINGLETON):
         setattr(cls, "router", APIRouter(prefix=f"/{routerPrefix}"))
 
         
-        instance = container.register(cls, scope)
+        container.register(cls, scope)
+        instance = container.resolve(cls)
+        
         bindEndpoints(instance)
         registerRouter(instance.router)
+
+        
 
         return cls
     
