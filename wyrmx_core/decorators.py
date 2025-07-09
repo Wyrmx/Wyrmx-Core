@@ -1,9 +1,9 @@
 from typing import Any
 from fastapi import APIRouter
 
-from wyrmx.core.scope import Scope
-from wyrmx.core.container import container
-from wyrmx.core.router import registerRouter
+from wyrmx_core.scope import Scope
+from wyrmx_core.container import container
+from wyrmx_core.router import registerRouter
 
 def singleton(cls):
     """
