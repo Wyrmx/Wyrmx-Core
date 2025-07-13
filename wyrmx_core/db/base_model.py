@@ -144,15 +144,44 @@ class Model(ABC):
         """
 
 
+        if not cls.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+        with cls.__Session__() as session: 
+
+            schemaRecords = session.query(cls.__schema__).filter_by(**filters).all()
+            
+        
+            return [
+                cls(**{
+                    column.name: getattr(schemaRecord, column.name) for column in cls.__schema__.__table__.columns
+                })
+
+                for schemaRecord in schemaRecords
+            ]
+
+
 
     @classmethod
-    def all(cls: Type[T], **filters) -> List[T]: 
+    def all(cls: Type[T]) -> List[T]: 
 
         """
         Class method.
         Retrieve all rows in this model’s table.
         Returns a list of model instances.
         """
+
+        if not cls.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+        with cls.__Session__() as session: 
+
+            schemaRecords = session.query(cls.__schema__).all()
+            
+        
+            return [
+                cls(**{
+                    column.name: getattr(schemaRecord, column.name) for column in cls.__schema__.__table__.columns
+                })
+
+                for schemaRecord in schemaRecords
+            ]
 
 
     
@@ -165,3 +194,7 @@ class Model(ABC):
         Count rows matching given filters.
         If no filters, counts all rows.
         """
+
+        if not cls.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+        with cls.__Session__() as session: return session.query(cls.__schema__).filter_by(**filters).count()
+

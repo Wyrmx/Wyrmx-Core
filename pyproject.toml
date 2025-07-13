@@ -1,6 +1,6 @@
 [project]
 name = "wyrmx-core"
-version = "0.1.7"
+version = "0.1.9"
 description = "Wyrmx Core is the framework engine for Wyrmx, offering DI, decorators, routing, and architecture patterns on top of FastAPI."
 
 authors = [
