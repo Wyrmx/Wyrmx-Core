@@ -1,7 +1,7 @@
 
 
 
-def get(path: str):
+def get(path: str = ""):
 
     def decorator(func):
         func._route_info = {
@@ -14,7 +14,7 @@ def get(path: str):
 
 
 
-def post(path: str):
+def post(path: str = ""):
 
     def decorator(func):
         func._route_info = {
@@ -28,7 +28,7 @@ def post(path: str):
 
 
 
-def patch(path: str):
+def patch(path: str = ""):
 
     def decorator(func):
         func._route_info = {
@@ -41,7 +41,7 @@ def patch(path: str):
 
 
 
-def put(path: str):
+def put(path: str = ""):
 
     def decorator(func):
         func._route_info = {
@@ -55,7 +55,7 @@ def put(path: str):
 
 
 
-def delete(path: str):
+def delete(path: str = ""):
 
     def decorator(func):
         func._route_info = {
@@ -68,7 +68,7 @@ def delete(path: str):
 
 
 
-def options(path: str):
+def options(path: str = ""):
 
     def decorator(func):
         func._route_info = {

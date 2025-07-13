@@ -1,4 +1,4 @@
-from wyrmx_core.scope import Scope
+from wyrmx_core.di.scope import Scope
 
 import inspect
 
