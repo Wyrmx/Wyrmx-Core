@@ -33,9 +33,9 @@ def controller(routerPrefix: str, scope: Scope = Scope.SINGLETON):
 
             if callable(attr) and hasattr(attr, "_route_info"):
                 instance.router.add_api_route(
-                    attr._route_info["path"],
+                    attr._route_info["path"], # type: ignore
                     attr,
-                    methods=attr._route_info["methods"]
+                    methods=attr._route_info["methods"] # type: ignore
                 )
 
 

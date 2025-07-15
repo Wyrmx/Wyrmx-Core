@@ -1,6 +1,8 @@
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
-from abc import ABC
+from sqlalchemy.exc import NoResultFound
 from typing import Type, TypeVar, List
+from abc import ABC
+
 
 T = TypeVar("T", bound="Model")
 
@@ -8,11 +10,12 @@ T = TypeVar("T", bound="Model")
 class Model(ABC):
 
     __schema__ = DeclarativeBase
-    __Session__: sessionmaker[Session] = None
+    __Session__: sessionmaker[Session] = None # type: ignore
 
 
     @classmethod
     def bindSession(cls: Type[T], session: sessionmaker[Session]): cls.__Session__ = session
+
 
 
     def __filterAutoIncrement(self, data: dict):
@@ -39,6 +42,20 @@ class Model(ABC):
             for key, value in self.__dict__.items()
             if key not in ["__schema__", "__Session__"]
         }
+    
+
+    def __getPersistentValues(self):
+        
+        if not self.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+
+        pkColumns = self.__schema__.__table__.primary_key.columns # type: ignore
+        
+        filters = {
+            col.name: getattr(self, f"_{self.__class__.__name__}__{col.name}", None)
+            for col in pkColumns
+        }
+
+        return self.__class__.get(**filters)
         
         
         
@@ -81,7 +98,29 @@ class Model(ABC):
         with self.__Session__() as session: 
 
             try: 
-                schemaInstance = self.__schema__(**self.__filterAutoIncrement(self.__filterInternalAttributes()))
+                self.__getPersistentValues()
+                self.update()
+
+            except NoResultFound: self.create()
+
+            finally: session.close()
+
+
+    
+    def update(self):
+
+        """
+        Update this model instance in the database.
+        Requires the primary key to be set to identify the record.
+        Commits the transaction automatically.
+        """
+
+        if not self.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+        
+        with self.__Session__() as session: 
+
+            try: 
+                schemaInstance = self.__schema__(**self.__filterInternalAttributes())
                 session.merge(schemaInstance)
                 session.commit()
 
@@ -122,13 +161,16 @@ class Model(ABC):
         """
 
         if not cls.__Session__: raise RuntimeError("Session not bound. Call Model.bindSession first.")
+
         with cls.__Session__() as session: 
 
             schemaRecord = session.query(cls.__schema__).filter_by(**filters).first()
+            if not schemaRecord: raise NoResultFound()
             
             return cls(**{
                 column.name: getattr(schemaRecord, column.name) for column in cls.__schema__.__table__.columns
             })
+            
 
 
 
@@ -187,7 +229,7 @@ class Model(ABC):
     
 
     @classmethod
-    def count(cls: Type[T], **filters) -> List[T]:
+    def count(cls: Type[T], **filters) -> int:
 
         """
         Class method.
