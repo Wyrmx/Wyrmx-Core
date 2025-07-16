@@ -17,7 +17,7 @@ def singleton(cls):
             instances[cls] = cls(*args, **kwargs)
         return instances[cls]
 
-    return get_instance
+    return get_instance  
 
 
 def controller(routerPrefix: str, scope: Scope = Scope.SINGLETON):
@@ -79,4 +79,12 @@ def schema(cls):
     return cls
 
 
+def payload(cls):
+    setattr(cls, "isPayload", True)
+    return cls
+
+
+def response(cls):
+    setattr(cls, "isResponse", True)
+    return cls
 
