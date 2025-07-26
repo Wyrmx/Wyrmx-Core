@@ -1,6 +1,6 @@
 [project]
 name = "wyrmx-core"
-version = "0.1.11"
+version = "0.1.13"
 description = "Wyrmx Core is the framework engine for Wyrmx, offering DI, decorators, routing, and architecture patterns on top of FastAPI."
 
 authors = [
@@ -11,7 +11,8 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi (>=0.116.0,<0.117.0)",
-    "sqlalchemy (>=2.0.41,<3.0.0)"
+    "sqlalchemy (>=2.0.41,<3.0.0)",
+    "httpx (>=0.28.1,<0.29.0)"
 ]
 
 [[tool.poetry.packages]]
